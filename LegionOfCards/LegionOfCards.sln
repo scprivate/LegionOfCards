@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LegionOfCards.Core", "LegionOfCards.Core\LegionOfCards.Core.csproj", "{1BEB2B03-D055-45BE-A3B8-AA8FAD0B44E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LegionOfCards.Web", "LegionOfCards.Web\LegionOfCards.Web.csproj", "{5399D8A5-0538-4A12-A83E-510EAEEF949D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1BEB2B03-D055-45BE-A3B8-AA8FAD0B44E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BEB2B03-D055-45BE-A3B8-AA8FAD0B44E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BEB2B03-D055-45BE-A3B8-AA8FAD0B44E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BEB2B03-D055-45BE-A3B8-AA8FAD0B44E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5399D8A5-0538-4A12-A83E-510EAEEF949D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5399D8A5-0538-4A12-A83E-510EAEEF949D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5399D8A5-0538-4A12-A83E-510EAEEF949D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5399D8A5-0538-4A12-A83E-510EAEEF949D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A690A408-BCCF-4F94-93FC-E990D649CA2B}
+	EndGlobalSection
+EndGlobal
