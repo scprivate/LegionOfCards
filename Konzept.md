@@ -24,3 +24,7 @@ Das Leben
 Bei LegionOfCards gibt es natürlich auch eine Lebensanzeige die definiert, wann man verloren / gewonnen hat.
 Jedoch heißt es bei LoC nicht Leben sonder, Ausschlusswahrscheinlichkeit (AW). Um so geringer die AW ist, umso eher verlierst du. Landet die AW auf 0 (100% - ja, scheiß auf Logik), so hast du verloren.
 Um dies zu erreichen gibt es eben die oben genannten Karten. 
+
+Charaktere beschwören
+-
+Charaktere können auf zweierlei Arten beschwört werden: Rufen (im Angriffmodus) oder Unterstützen (im Verteidungsmodus, hier jedoch entweder verdeckt oder offen)
