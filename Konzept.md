@@ -27,4 +27,4 @@ Um dies zu erreichen gibt es eben die oben genannten Karten.
 
 Charaktere beschwören
 -
-Charaktere können auf zweierlei Arten beschwört werden: Rufen (im Angriffmodus) oder Unterstützen (im Verteidungsmodus, hier jedoch entweder verdeckt oder offen)
+Charaktere können auf zweierlei Arten beschwört werden: Rufen (im Angriffmodus) oder Unterstützen (im Verteidungsmodus, hier jedoch entweder verdeckt oder offen)!
