@@ -2,7 +2,7 @@ Kartenarten:
 - 
 - Charaktere: Charaktere sind Leute, Spieler, Teamler aus unserer Community. Charaktere haben immer ein Angriffswert (oder auch Einfluss) und einen Verteidigungswert (oder auch Kontakte). Charaktere können jedoch auch eine aktive oder gar passive Fähigkeit / Effekt besitzen. Aktive müssen vom Spieler aktiv eingesetzt werden, Passive sind entweder immer aktiv oder sie können ausgelöst werden, wenn eine Bedingung erfüllt ist. Des weiteren sind Charaktere in spezielle und einfache Charaktere - wie bei YuGiOh sind die speziellen XYZ oder Synchro und die einfachen einfache Monster - unterteilt.
 - Effekte: Effektkarten sind wie bei den Charakterkarten Effekte - entweder Aktive oder Passive - jedoch müssen diese, im Effekt Bereich auf dem Board gespielt werden. Auch bei Effektkarten wird noch ein bisschen genauer Unterschieden, zwischen offensichtlichen Effektkarten - diese müssen im eigenen Zug aktiviert werden, Blitzeffekte - diese können zu jeder Zeit, sofern die Bedingungen stimmen, aktiviert werden, und hinterhältige Effektkarten - welche nur im Zug des Gegners aktiviert werden können.
-- Regel: Regelkarten sind besondere Karten, wovon immer nur aktiv sein können. Deren Effekte ändern die Regeln des kompletten Spiels, grundlegend.
+- Regel: Regelkarten sind besondere Karten, wovon immer nur 2 aktiv sein können. Deren Effekte ändern die Regeln des kompletten Spiels, grundlegend.
 - Board: Zu guter Letzt haben wir noch die Boardkarten. Boardkarten verändern das Aussehen, Verhalten und die Funktion des Boards grundlegend und können Bedingungen ändern.
 
 Das Board
@@ -27,4 +27,4 @@ Um dies zu erreichen gibt es eben die oben genannten Karten.
 
 Charaktere beschwören
 -
-Charaktere können auf zweierlei Arten beschwört werden: Rufen (im Angriffmodus) oder Unterstützen (im Verteidungsmodus, hier jedoch entweder verdeckt oder offen)
+Charaktere können auf zweierlei Arten beschwört werden: Rufen (im Angriffmodus) oder Unterstützen (im Verteidungsmodus, hier jedoch entweder verdeckt oder offen)!
