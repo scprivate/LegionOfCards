@@ -60,7 +60,7 @@ class LocBackend {
         return this.handler;
     }
 
-    sendData(packetKey, ...packetArgs) {
+    callRemote(packetKey, ...packetArgs) {
         let packet = {
             key: packetKey,
             args: packetArgs
