@@ -34,7 +34,6 @@ var LocBackend = function(url) {
         return this.connection;
     }
 
-
     this.events = function() {
         return this.handler;
     }
