@@ -11,75 +11,52 @@ class LocUtils {
         return '../assets/' + fileName;
     }
 
-    static getServerUrl() {
-        return '';
+    static getServerUrl(ip) {
+        return 'ws://' + ip + ":25319/locgcapi";
     }
 }
 
 /**
  * This is the connector for the backend. It offers a WebSocket which is the connection to the Backend-Legion of Cards-Servers (or short, Blocs).
  */
-class LocBackend {
+var LocBackend = function(url) {
 
-    constructor(url) {
-        this.handler = new LocBackendHandler();
-        this.connection = new WebSocket(url);
-        this.connection.onopen = onConnect;
-        this.connection.onclose = onDisconnect;
-        this.connection.onerror = onError;
-        this.connection.onmessage = onReceive;
-    }
+    var handler = new LocBackendHandler();
+    this.handler = handler;
 
-    // ---------- CALLBACKS ----------- \\
-    onReceive(event) {
+    this.connection = new WebSocket(url);
+    this.connection.onmessage = function(event) {
         let packet = JSON.parse(event.data);
-        this.handler.execute(packet.key, packet.args);
-    }
+        handler.execute(packet.Key, packet.Args);
+    };
 
-    onConnect(event) {
-
-    }
-
-    onDisconnect(event) {
-
-    }
-
-    onError(event) {
-        alert("An error occurred in the LocBackend-Blocs-Connection: " + event);
-    }
-    // ---------- CALLBACKS ----------- \\
-
-    /**
-     * @returns {WebSocket}
-     */
-    get getConnection() {
+    this.getConnection = function() {
         return this.connection;
     }
 
-    get events() {
+
+    this.events = function() {
         return this.handler;
     }
 
-    callRemote(packetKey, ...packetArgs) {
+    this.callRemote = function(packetKey, ...packetArgs) {
         let packet = {
-            key: packetKey,
-            args: packetArgs
+            Key: packetKey,
+            Args: packetArgs
         };
         this.connection.send(JSON.stringify(packet));
     }
-}
+};
 
-class LocBackendHandler {
+var LocBackendHandler = function () {
+    
+    this.events = {};
 
-    constructor() {
-        this.events = {};
-    }
-
-    register(name, callback) {
+    this.register = function(name, callback) {
         this.events[name] = callback;
     }
 
-    execute(name, data) {
+    this.execute = function(name, data) {
         let args = [];
         for (let key in data) {
             if (data.hasOwnProperty(key)) {
@@ -91,4 +68,4 @@ class LocBackendHandler {
             this.events[name].apply(null, args);
         }
     }
-}
+};

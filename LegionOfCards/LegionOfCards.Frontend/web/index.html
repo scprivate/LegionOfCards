@@ -10,6 +10,19 @@
 <body>
     
 <script>
+    const backend = new LocBackend(LocUtils.getServerUrl("localhost"));
+    backend.getConnection().onopen = function(event) {
+        backend.callRemote('test-connection', "Hallo welt!");
+    };
+    backend.getConnection().onclose = function(event) {
+    };
+    backend.getConnection().onerror = function(event) {
+        alert("An error occurred in the LocBackend-Blocs-Connection: " + event);
+    };
+    backend.events().register('connection-result',
+        (msg) => {
+            console.log(msg);
+        });
     
 </script>
 </body>

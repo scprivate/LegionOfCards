@@ -34,6 +34,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,12 +50,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CommandHandler.cs" />
+    <Compile Include="Events\EventHandler.cs" />
+    <Compile Include="Events\RemoteEvent.cs" />
+    <Compile Include="Frontend\Client.cs" />
+    <Compile Include="GameServer.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LegionOfCards.Core\LegionOfCards.Core.csproj">
+      <Project>{1beb2b03-d055-45be-a3b8-aa8fad0b44e8}</Project>
+      <Name>LegionOfCards.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LegionOfCards.Data\LegionOfCards.Data.csproj">
       <Project>{681DC1E5-3F83-4A98-BAB4-64A85548A357}</Project>
       <Name>LegionOfCards.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LegionOfCards.Utils\LegionOfCards.Utils.csproj">
+      <Project>{5eaad62c-6dc3-4dfb-a0a9-600531a4e416}</Project>
+      <Name>LegionOfCards.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
