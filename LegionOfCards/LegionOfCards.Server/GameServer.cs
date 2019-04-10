@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LegionOfCards.Data.Controllers;
+using LegionOfCards.Data.Models;
 using LegionOfCards.Data.Net;
+using LegionOfCards.Discord;
 using LegionOfCards.Server.Commands;
 using LegionOfCards.Server.Events;
 using LegionOfCards.Server.Frontend;
@@ -37,6 +40,14 @@ namespace LegionOfCards.Server
             Events.Add<GameServer>();
             Commands = new CommandHandler();
             Socket.AddWebSocketService<Client>("/locgcapi");
+            DiscordVerification.VerificationSuccess += OnDiscordVerified;
+            DiscordVerification.Start();
+        }
+
+        private void OnDiscordVerified(string userID)
+        {
+            User user = UserController.GetUser(userID);
+            BotInterface.GiveDuellist(user.DiscordID).GetAwaiter().GetResult();
         }
 
         public void BroadcastEvent(string name, params object[] args)

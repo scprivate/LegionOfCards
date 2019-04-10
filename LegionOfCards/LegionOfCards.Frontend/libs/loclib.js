@@ -8,7 +8,11 @@ class LocUtils {
      * @param {string} fileName
      */
     static getAsset(fileName) {
-        return '../assets/' + fileName;
+        return 'assets/' + fileName;
+    }
+
+    static getState(stateName) {
+        return 'states/' + stateName + '.js';
     }
 
     static getServerUrl(ip) {

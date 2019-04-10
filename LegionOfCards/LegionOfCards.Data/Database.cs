@@ -8,14 +8,14 @@ namespace LegionOfCards.Data
 {
     public class Database
     {
-        private static readonly string ConnectionString = "SERVER=legionofsensei.de;UID=mrpneu;PASSWORD=b3vz30A;DATABASE=mrpneu;";
+        private static readonly string ConnectionString = "";
 
         public static string UserTable => "loc__users";
         public static string BanTable => "loc__banns";
 
         public static void Init()
         {
-            CreateTable(UserTable, "UserID TEXT, Name TEXT, Password TEXT, Email TEXT, IsMod TINYINT(1)");
+            CreateTable(UserTable, "UserID TEXT, Name TEXT, Password TEXT, Email TEXT, IsMod TINYINT(1), DiscordID TEXT");
             CreateTable(BanTable, "BanID TEXT, UserID TEXT, ModID TEXT, Expires TEXT, Reason TEXT");
         }
 

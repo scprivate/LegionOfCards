@@ -33,17 +33,20 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>LegionofCardsPB1.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="websocket-sharp, Version=1.0.2.59611, Culture=neutral, PublicKeyToken=5660b08a1845a91e, processorArchitecture=MSIL">
       <HintPath>..\packages\WebSocketSharp.1.0.3-rc11\lib\websocket-sharp.dll</HintPath>
@@ -68,15 +71,22 @@
       <Project>{681DC1E5-3F83-4A98-BAB4-64A85548A357}</Project>
       <Name>LegionOfCards.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LegionOfCards.Discord\LegionOfCards.Discord.csproj">
+      <Project>{78C156D6-E9B8-4586-9A1D-4A2F598E56F6}</Project>
+      <Name>LegionOfCards.Discord</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LegionOfCards.Utils\LegionOfCards.Utils.csproj">
       <Project>{5eaad62c-6dc3-4dfb-a0a9-600531a4e416}</Project>
       <Name>LegionOfCards.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="favicon2.ico" />
+    <Content Include="LegionofCardsPB1.ico" />
     <Content Include="_protocol.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

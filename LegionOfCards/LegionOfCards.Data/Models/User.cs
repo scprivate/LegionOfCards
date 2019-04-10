@@ -17,6 +17,8 @@ namespace LegionOfCards.Data.Models
 
         public bool IsMod { get; set; }
 
+        public string DiscordID { get; set; }
+
         internal string HashedPassword { get; }
 
         internal User(string name, string email, string password)
@@ -25,6 +27,7 @@ namespace LegionOfCards.Data.Models
             Name = name;
             Email = email;
             HashedPassword = Cryptor.MD5(password);
+            DiscordID = "";
         }
 
         internal User(Dictionary<string, object> data)
@@ -34,6 +37,7 @@ namespace LegionOfCards.Data.Models
             Email = (string) data["Email"];
             HashedPassword = (string) data["Password"];
             IsMod = (bool) data["IsMod"];
+            DiscordID = (string) data["DiscordID"];
         }
     }
 }

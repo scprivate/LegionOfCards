@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Legion of Cards - (c) Legion of Sensei</title>
+    
+    <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico">
+
+    <script src="libs/phaser.js"></script>
+    <script src="libs/loclib.js"></script>
+</head>
+<body>
+    
+<script>
+    const backend = new LocBackend(LocUtils.getServerUrl("localhost"));
+
+    // Connection Events
+    backend.getConnection().onopen = function (event) {
+        backend.callRemote('test-connection', "Hallo welt!");
+    };
+
+    backend.getConnection().onclose = function (event) {
+    };
+
+    backend.getConnection().onerror = function (event) {
+        alert("An error occurred in the LocBackend-Blocs-Connection: " + JSON.stringify(event));
+    };
+
+    // Receive Events
+    backend.events().register('connection-result',
+        (msg) => {
+            console.log(msg);
+        });
+</script>
+</body>
+</html>
