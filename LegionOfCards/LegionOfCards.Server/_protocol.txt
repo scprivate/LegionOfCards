@@ -1,0 +1,103 @@
+﻿-- Das Protokoll --
+Dieses Dokument dient zur Dokumentation des Legion of Cards-Protokoll oder kurz LoCaP [ausgesprochen: Lowcap]
+
+-- Datenverkehr --
+Der Datenverkehr zwischen Frontend (Webseite / HTML & JavaScript) und unserem Backend (C#) funktioniert über JSON-Pakete welche über WebSockets versendet und empfangen werden.
+Dabei besteht ein JSON-Paket aus einem Schlüssel (Packetname oder Packetkey) und den Informationen in Form einer Object-Array (Packetargs / Packetargumente).
+Sendet man ein Paket zu der anderen Seite so wird dieses auf der Empfängerseite über EventHandler empfangen, sortiert und über registrierte Callbacks an die Verarbeitungsschnittstellen weitergegeben.
+
+Damit es keine Konflikte der Paketschlüssel gibt, gibt es Lowcap. Hier werden alle Paketschlüssel, Richtungen, Informationen und Beschreibungen aufgelistet und dokumentiert.
+
+-- Schema --
+Damit keine Verwirrung in der Dokumentation entsteht, gibt es ein bestimmtes Schema, welches sowohl beim Benennen der Paketschlüssel, als auch bei der Dokumentation einzuhalten gibt.
+
+Paketschlüssel:
+Bei den Paketschlüssel gilt es, dass diese keine Leerzeichen enthalten. Leerzeichen werden ersetz durch Bindestriche (-). Ebenso ist der komplette Schlüssel in Lower-Case und Worte die aus mehr als einem Wort
+bestehen werden mit Unterstrichen (_) getrennt. Bsp: send-player_password
+
+Dokumentationsschema:
+Da wir nun wissen, wie ein Paketschlüssel auszusehen hat, gilt es nun nur noch die Dokumentationsform einzuhalten. Dabei wird bitte folgendes Schema eingehalten:
+
+PAKETSCHLÜSSEL:
+[RICHTUNG (F->B oder B->F; B=Backend, F=Frontend)]
+{
+	ARGUMENTE (TYP: NAME)
+}
+> BESCHREIBUNG
+
+==========================================================================================================================================================
+
+-- Blockierte Schlüssel --
+
+check-username
+username-check_result
+check-email
+email-check_result
+create-account
+account-creation_result
+check-password
+password-check_result
+
+==========================================================================================================================================================
+
+-- Account-Pakete --
+
+check-username:
+[F->B]
+{
+	string: name
+}
+> Prüft, ob der gegebene Name existiert. Nach dem Empfang dieses Paketes wird ein "username-check_result"-Paket zurückgesendet.
+
+username-check_result:
+[B->F]
+{
+	int: resultCode (0 = existiert nicht, 1 = existiert, -1 = Fehler ist aufgetreten)
+}
+> Dieses Paket dient zur Aufklärung des "check-username"-Paketes. Es sagt dem Frontend, ob die Anfrage fehlgeschlagen ist oder Erfolg hatte.
+
+check-email:
+[F->B]
+{
+	string: email
+}
+> Prüft, ob die gegebene Email existiert. Nach dem Empfang dieses Paketes wird ein "email-check_result"-Paket zurückgesendet.
+
+email-check_result:
+[B->F]
+{
+	int: resultCode (0 = existiert nicht, 1 = existiert, -1 = Fehler ist aufgetreten)
+}
+> Dieses Paket dient zur Aufklärung des "check-email"-Paketes. Es sagt dem Frontend, ob die Anfrage fehlgeschlagen ist oder Erfolg hatte.
+
+create-account:
+[F->B]
+{
+	string: username
+	string: email
+	string: password
+}
+> Sendet eine Account-Erstellungsanfrage an den Server. Dort wird die Anfrage bearbeitet und durch ein "account-creation_result"-Paket der Status zum Frontend übertragen.
+
+account-creation_result:
+[B->F]
+{
+	int: resultCode (0 = Fehler ist aufgetreten, 1 = Account konnte erstellt werden)
+}
+> Dieses Paket dient zur Aufklärung des "create-account"-Paketes. Es sagt dem Frontend, ob die Anfrage fehlgeschlagen ist oder Erfolg hatte.
+
+check-password:
+[F->B]
+{
+	string: identifier (Kann entweder Username oder Email sein)
+	string: password
+}
+> Prüft, ob der Account vom gegebenen "identifier" existiert und ob das angegebene Passwort richtig ist. Nachdem die Anfrage bearbeitet wurde, wird ein "password-check_result"-Paket zurück gesendet.
+
+password-check_result:
+[B->F]
+{
+	bool: success
+	string: userID
+}
+> Dieses Paket dient zur Aufklärung des "password-check_result"-Paketes. Es sagt dem Frontend, ob die Anfrage fehlgeschlagen ist oder Erfolg hatte und liefert bei Erfolg die UserID des angefragten Accounts.
