@@ -17,7 +17,7 @@ def auth():
     access_token = Oauth.get_access_token(code)
     user = Oauth.get_user_data(access_token)
     Oauth.insert_user_id(user.get("id"))
-    return "Success!"
+    return redirect("http://localhost:51883")
 
 if(__name__ == "__main__"):
     app.run(debug=True)

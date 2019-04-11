@@ -23,5 +23,10 @@ namespace LegionOfCards.Data.Net
             Key = key;
             Args = args;
         }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 }

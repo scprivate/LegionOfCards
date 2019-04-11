@@ -34,6 +34,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "LegionOfCards.Frontend", "L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LegionOfCards.Discord", "LegionOfCards.Discord\LegionOfCards.Discord.csproj", "{78C156D6-E9B8-4586-9A1D-4A2F598E56F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LegionOfCards.Tests", "LegionOfCards.Tests\LegionOfCards.Tests.csproj", "{2892BCEA-55D1-4260-8B3C-825D864A0243}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{78C156D6-E9B8-4586-9A1D-4A2F598E56F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78C156D6-E9B8-4586-9A1D-4A2F598E56F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78C156D6-E9B8-4586-9A1D-4A2F598E56F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2892BCEA-55D1-4260-8B3C-825D864A0243}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2892BCEA-55D1-4260-8B3C-825D864A0243}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2892BCEA-55D1-4260-8B3C-825D864A0243}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2892BCEA-55D1-4260-8B3C-825D864A0243}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

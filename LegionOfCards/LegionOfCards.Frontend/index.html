@@ -1,36 +1,88 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>Legion of Cards - (c) Legion of Sensei</title>
-    
+
     <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <script src="libs/loclib.js"></script>
 
     <script src="libs/phaser.js"></script>
-    <script src="libs/loclib.js"></script>
+    <!-- SCENES -->
+    <script src="scenes/SplashScreen.js"></script>
+    <script src="scenes/MainMenu.js"></script>
+    <!-- SCENES -->
+
+    <style>
+        canvas {
+            position: absolute;
+            top: calc(50vh - 768px / 2 - 10px);
+            left: calc(50% - 1366px / 2 - 10px);
+            border: deepskyblue solid 10px;
+        }
+
+        input {
+            background-color: transparent;
+            color: white;
+            font-size: 20px;
+            font-family: "Roboto", serif;
+            border: 3px solid #D49B00;
+            outline: none;
+        }
+
+        input:focus {
+            outline: none;
+            border: none;
+        }
+    </style>
 </head>
 <body>
-    
-<script>
-    const backend = new LocBackend(LocUtils.getServerUrl("localhost"));
 
+<script>
+    // Configuration
+    const backend = new LocBackend(LocUtils.getServerUrl("localhost"));
+    const session = new SessionManager(backend);
+    const account = new AccountManager(backend, session);
+    const manager = new GameManager(session, account, backend);
     // Connection Events
+    backend.events().register('ping_result',
+        (sessionFound, userID, token) => {
+            if (sessionFound) {
+                session.register(userID, token);
+                manager.setStatus(BLOCS_SESSION_FOUND);
+            } else {
+                session.destroy();
+                showLoginScreen();
+            }
+        });
+
+    backend.events().register('session_destroyed',
+        () => {
+            session.destroy();
+            window.location.reload(true);
+        });
+
     backend.getConnection().onopen = function (event) {
-        backend.callRemote('test-connection', "Hallo welt!");
+        backend.callRemote('ping_session', getCookie("loc_session_access_token"));
     };
 
     backend.getConnection().onclose = function (event) {
+        manager.setStatus(BLOCS_DISCONNECTED);
     };
 
     backend.getConnection().onerror = function (event) {
-        alert("An error occurred in the LocBackend-Blocs-Connection: " + JSON.stringify(event));
+        manager.setStatus(BLOCS_CONNECTION_FAILED);
     };
 
-    // Receive Events
-    backend.events().register('connection-result',
-        (msg) => {
-            console.log(msg);
-        });
+    // Phaser Initialization
+    manager.init();
+
+    function showLoginScreen() {
+        manager.setStatus(BLOCS_NEED_LOGIN);
+    }
+
 </script>
 </body>
 </html>

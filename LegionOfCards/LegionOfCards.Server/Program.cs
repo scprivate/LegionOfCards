@@ -26,19 +26,19 @@ namespace LegionOfCards.Server
             Logger.Info("Init database...");
             Database.Init();
             Logger.Success("Database init successful!");
-            GameServer.Instance = new GameServer();
+            WebServer.Instance = new WebServer();
             _running = true;
-            GameServer.Instance.Commands.Add<Program>();
-            GameServer.Instance.Start();
+            WebServer.Instance.Commands.Add<Program>();
+            WebServer.Instance.Start();
             Logger.Info("Use 'help' for more information! Use 'exit' to stop and exit the server!");
             while (_running)
             {
-                if (!GameServer.Instance.Commands.Handle(Console.ReadLine()))
+                if (!WebServer.Instance.Commands.Handle(Console.ReadLine()))
                 {
                     Logger.Warn("Command not found! Use 'help' for more information!");
                 }
             }
-            GameServer.Instance.Stop();
+            WebServer.Instance.Stop();
             Console.WriteLine("Press any key to exit program...");
             Console.ReadKey();
         }

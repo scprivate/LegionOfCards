@@ -24,7 +24,7 @@ namespace LegionOfCards.Server.Frontend
             try
             {
                 Packet packet = JsonConvert.DeserializeObject<Packet>(message);
-                GameServer.Instance.Events.Handle(this, packet);
+                WebServer.Instance.Events.Handle(this, packet);
             }
             catch (Exception ex)
             {
@@ -34,17 +34,17 @@ namespace LegionOfCards.Server.Frontend
 
         protected override void OnOpen()
         {
-            GameServer.Instance.InvokeConnect(this);
+            WebServer.Instance.InvokeConnect(this);
         }
 
         protected override void OnClose(CloseEventArgs e)
         {
-            GameServer.Instance.InvokeDisconnect(this, e);
+            WebServer.Instance.InvokeDisconnect(this, e);
         }
 
         protected override void OnError(ErrorEventArgs e)
         {
-            GameServer.Instance.InvokeError(this, e);
+            WebServer.Instance.InvokeError(this, e);
         }
     }
 }
