@@ -26,19 +26,19 @@ namespace LegionOfCards.Server
             Logger.Info("Init database...");
             Database.Init();
             Logger.Success("Database init successful!");
-            GameServer.Instance = new GameServer();
+            GodotServer.Instance = new GodotServer();
             _running = true;
-            GameServer.Instance.Commands.Add<Program>();
-            GameServer.Instance.Start();
+            GodotServer.Instance.Commands.Add<Program>();
+            GodotServer.Instance.Start();
             Logger.Info("Use 'help' for more information! Use 'exit' to stop and exit the server!");
             while (_running)
             {
-                if (!GameServer.Instance.Commands.Handle(Console.ReadLine()))
+                if (!GodotServer.Instance.Commands.Handle(Console.ReadLine()))
                 {
                     Logger.Warn("Command not found! Use 'help' for more information!");
                 }
             }
-            GameServer.Instance.Stop();
+            GodotServer.Instance.Stop();
             Console.WriteLine("Press any key to exit program...");
             Console.ReadKey();
         }

@@ -27,48 +27,40 @@ PAKETSCHLÜSSEL:
 
 ==========================================================================================================================================================
 
--- Blockierte Schlüssel --
-
-check-username
-username-check_result
-check-email
-email-check_result
-create-account
-account-creation_result
-check-password
-password-check_result
-
 ==========================================================================================================================================================
 
 -- Account-Pakete --
 
-check-username:
+ping_session:
 [F->B]
 {
-	string: name
+	string: Session Token (Dieser Token wird in den Cookies gespeichert)
 }
-> Prüft, ob der gegebene Name existiert. Nach dem Empfang dieses Paketes wird ein "username-check_result"-Paket zurückgesendet.
+> Das ist ein Test-Paket, welches direkt am Anfang gesendet wird um zu gucken ob noch eine bestehende Session existiert oder ein Login angefordert werden muss.
+Ebenso dient diese Paket zur Überprüfung der Verbindung zu den Blocs.
 
-username-check_result:
+ping_result:
 [B->F]
 {
-	int: resultCode (0 = existiert nicht, 1 = existiert, -1 = Fehler ist aufgetreten)
+	bool: sessionFound
+	string: userID,
+	string: token (Session Token)
 }
-> Dieses Paket dient zur Aufklärung des "check-username"-Paketes. Es sagt dem Frontend, ob die Anfrage fehlgeschlagen ist oder Erfolg hatte.
 
-check-email:
+check-creation_data:
 [F->B]
 {
+	string: username
 	string: email
 }
-> Prüft, ob die gegebene Email existiert. Nach dem Empfang dieses Paketes wird ein "email-check_result"-Paket zurückgesendet.
+> Prüft, ob der gegebene Name existiert. Nach dem Empfang dieses Paketes wird ein "creation_data-check_result"-Paket zurückgesendet.
 
-email-check_result:
+creation_data-check_result:
 [B->F]
 {
-	int: resultCode (0 = existiert nicht, 1 = existiert, -1 = Fehler ist aufgetreten)
+	int: resultCode (0 = alles ok, 1 = email existiert, 2 = username existiert, 3 = beides existiert, -1 = Fehler ist aufgetreten)
 }
-> Dieses Paket dient zur Aufklärung des "check-email"-Paketes. Es sagt dem Frontend, ob die Anfrage fehlgeschlagen ist oder Erfolg hatte.
+> Dieses Paket dient zur Aufklärung des "check-creation_data"-Paketes. Es sagt dem Frontend, ob die Anfrage fehlgeschlagen ist oder Erfolg hatte.
 
 create-account:
 [F->B]
@@ -82,9 +74,23 @@ create-account:
 account-creation_result:
 [B->F]
 {
-	int: resultCode (0 = Fehler ist aufgetreten, 1 = Account konnte erstellt werden)
+	bool: success (false = Fehler ist aufgetreten, true = Account konnte erstellt werden)
 }
 > Dieses Paket dient zur Aufklärung des "create-account"-Paketes. Es sagt dem Frontend, ob die Anfrage fehlgeschlagen ist oder Erfolg hatte.
+
+request-discord_verification:
+[F->B]
+{
+	string: accessToken (Session Token | Die Session muss überpürft werden, ob diese noch gültig ist)	
+}
+> Fordert einen Verifikationslink für die Discord-Verknüpfung vom Server an.
+
+send-discord_verify_url:
+[B->F]
+{
+	string: verifyUrl
+}
+> Sendet den angeforderten Verifikationslink zum Frontend zurück, um die Verifikation zu beginnen.
 
 check-password:
 [F->B]
@@ -92,12 +98,36 @@ check-password:
 	string: identifier (Kann entweder Username oder Email sein)
 	string: password
 }
-> Prüft, ob der Account vom gegebenen "identifier" existiert und ob das angegebene Passwort richtig ist. Nachdem die Anfrage bearbeitet wurde, wird ein "password-check_result"-Paket zurück gesendet.
+> Prüft, ob der Account vom gegebenen "identifier" existiert und ob das angegebene Passwort richtig ist. Nachdem die Anfrage bearbeitet wurde, wird ein "session-result"-Paket zurück gesendet.
 
-password-check_result:
+session-result:
 [B->F]
 {
 	bool: success
-	string: userID
+	string: userID,
+	string: token (Session Token)
 }
 > Dieses Paket dient zur Aufklärung des "password-check_result"-Paketes. Es sagt dem Frontend, ob die Anfrage fehlgeschlagen ist oder Erfolg hatte und liefert bei Erfolg die UserID des angefragten Accounts.
+
+logut-session:
+[F->B]
+{
+	string: userID
+	string: accessToken (Session Token)
+}
+> Das Paket fordert den Server auf, die Session vom gegebenen Session Token zu zerstören und jegliche spielerbezogene Daten zu speichern.
+
+session-destroyed:
+[B->F]
+> Das Paket sagt dem Frontend, dass die Session zerstört wurde und nun neugeladen werden kann.
+
+delete-account:
+[F->B]
+{
+	string: accessToken (Session Token)
+}
+> Fordert den Server auf alle Daten des Users zu löschen und die Session zu zerstören.
+
+account-deletion_failure:
+[B->F]
+> Teilt dem Frontend mit, dass bei der Löschung ein Fehler aufgetreten ist.

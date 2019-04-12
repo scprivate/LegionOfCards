@@ -10,6 +10,19 @@ namespace LegionOfCards.Data.Controllers
 {
     public class UserController
     {
+        public static string CheckPassword(string identifier, string password)
+        {
+            Dictionary<string, object> data = Database.GetterOne(
+                $"SELECT * FROM {Database.UserTable} WHERE Email = @ident OR Name = @ident",
+                new Tuple<string, object>("@ident", identifier));
+            if (data != null && (string) data["Password"] == password)
+            {
+                return (string) data["UserID"];
+            }
+
+            return null;
+        }
+
         public static User GetUser(string id)
         {
             Dictionary<string, object> data = Database.GetterOne(
@@ -34,12 +47,12 @@ namespace LegionOfCards.Data.Controllers
             }
         }
 
-        public static void DeleteUser(User user)
+        public static void DeleteUser(string userID)
         {
             if (Database.Exists($"SELECT * FROM {Database.UserTable} WHERE UserID = @id",
-                new Tuple<string, object>("@id", user.ID)))
+                new Tuple<string, object>("@id", userID)))
             {
-                Database.Setter($"DELETE FROM {Database.UserTable} WHERE UserID = @id");
+                Database.Setter($"DELETE FROM {Database.UserTable} WHERE UserID = @id", new Tuple<string, object>("@id", userID));
             }
         }
 

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
+using LegionOfCards.Data;
 using LegionOfCards.Data.Controllers;
 using LegionOfCards.Data.Models;
 using LegionOfCards.Data.Net;
 using LegionOfCards.Discord;
+using LegionOfCards.Server.Account;
 using LegionOfCards.Server.Commands;
 using LegionOfCards.Server.Events;
 using LegionOfCards.Server.Frontend;
@@ -19,29 +22,66 @@ using Logger = LegionOfCards.Utils.Logger;
 
 namespace LegionOfCards.Server
 {
-    public class GameServer
+    public class WebServer
     {
-        public static GameServer Instance { get; internal set; }
+        public static WebServer Instance { get; internal set; }
 
         public WebSocketServer Socket { get; }
 
         public EventHandler Events { get; }
 
         public CommandHandler Commands { get; }
+
+        public SessionManager Sessions { get; }
+
+        public AccountManager AccountManager { get; }
         
         public event Action<Client> Connect;
         public event Action<Client, CloseEventArgs> Disconnect;
-        public event Action<Client, ErrorEventArgs> Error; 
+        public event Action<Client, ErrorEventArgs> Error;
 
-        public GameServer()
+        public WebServer()
         {
+            string sessionSecret;
+            if (JsonStorage.Exists("session_secret"))
+            {
+                Dictionary<string, object> data = JsonStorage.Load<Dictionary<string, object>>("session_secret");
+                if (DateTime.FromBinary((long) data["exp"]) < DateTime.UtcNow)
+                {
+                    sessionSecret = GenerateNewSecret();
+                }
+                else
+                {
+                    sessionSecret = (string) data["val"];
+                }
+            }
+            else
+            {
+                sessionSecret = GenerateNewSecret();
+            }
+
+            AccountManager = new AccountManager();
+            Sessions = new SessionManager(sessionSecret);
             Socket = new WebSocketServer(25319);
             Events = new EventHandler();
-            Events.Add<GameServer>();
+            Events.Add<WebServer>();
+            Events.Add<SessionManager>();
+            Events.Add<AccountManager>();
             Commands = new CommandHandler();
-            Socket.AddWebSocketService<Client>("/locgcapi");
+            //Socket.AddWebSocketService<Client>("/locgcapi");
             DiscordVerification.VerificationSuccess += OnDiscordVerified;
             DiscordVerification.Start();
+        }
+
+        private string GenerateNewSecret()
+        {
+            string secret = Cryptor.GenerateSecret();
+            JsonStorage.Save("session_secret", new Dictionary<string, object>
+            {
+                { "exp", DateTime.UtcNow.AddDays(1).ToBinary() },
+                { "val", secret }
+            });
+            return secret;
         }
 
         private void OnDiscordVerified(string userID)
@@ -98,10 +138,6 @@ namespace LegionOfCards.Server
             Error?.Invoke(client, args);
         }
 
-        [RemoteEvent("test-connection")]
-        public static void TestConnectionEvent(Client client, string msg)
-        {
-            client.TriggerEvent("connection-result", msg);
-        }
+        
     }
 }

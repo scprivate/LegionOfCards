@@ -45,9 +45,9 @@ class Oauth(object):
     def insert_user_id(discord_id):
         mydb = mysql.connector.connect(
             host = "legionofsensei.de",
-            user = "das ist nicht der richtige user",
-            passwd = "das ist nicht das richtige passwort",
-            database = "das ist nicht die richtige db"
+            user = "mrpneu",
+            passwd = "b3vz30A",
+            database = "mrpneu"
         )
         mycursor = mydb.cursor()
         sql = "UPDATE loc__users SET DiscordID = %s WHERE UserID = %s"
