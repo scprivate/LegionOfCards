@@ -60,6 +60,7 @@
     <Compile Include="Events\EventHandler.cs" />
     <Compile Include="Events\RemoteEvent.cs" />
     <Compile Include="Frontend\Client.cs" />
+    <Compile Include="GodotServer.cs" />
     <Compile Include="WebServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

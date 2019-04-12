@@ -68,7 +68,7 @@ namespace LegionOfCards.Server
             Events.Add<SessionManager>();
             Events.Add<AccountManager>();
             Commands = new CommandHandler();
-            Socket.AddWebSocketService<Client>("/locgcapi");
+            //Socket.AddWebSocketService<Client>("/locgcapi");
             DiscordVerification.VerificationSuccess += OnDiscordVerified;
             DiscordVerification.Start();
         }
