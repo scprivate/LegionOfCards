@@ -46,8 +46,8 @@ namespace LegionOfCards.Server.Frontend
 
                         } while (_socket.GetStream().DataAvailable);
 
-                        if (data.StartsWith("("))
-                            data = data.Substring(1);
+                        if (!data.StartsWith("{"))
+                            data = data.Substring(data.IndexOf("{", StringComparison.Ordinal));
                         OnMessage(data);
                     }
                 }
