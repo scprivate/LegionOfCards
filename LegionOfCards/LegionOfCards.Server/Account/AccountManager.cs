@@ -60,23 +60,28 @@ namespace LegionOfCards.Server.Account
             return false;
         }
 
-        public bool DeleteAccount(Client client, string accessToken)
+        public int DeleteAccount(Client client, string accessToken, string password)
         {
             try
             {
-                string userID = WebServer.Instance.Sessions.ValidateSession(client, accessToken);
-                if (userID != null)
+                Session session = GodotServer.Instance.Sessions.ValidateSession(client, accessToken);
+                if (session != null)
                 {
-                    UserController.DeleteUser(userID);
-                    WebServer.Instance.Sessions.DestroySession(client, accessToken);
-                    return true;
+                    if (session.User.HashedPassword == password)
+                    {
+                        UserController.DeleteUser(session.User.ID);
+                        GodotServer.Instance.Sessions.DestroySession(client, accessToken, false);
+                        return 0;
+                    }
+
+                    return 1;
                 }
 
-                return false;
+                return -1;
             }
             catch
             {
-                return false;
+                return -1;
             }
         }
 
@@ -86,20 +91,19 @@ namespace LegionOfCards.Server.Account
         }
 
         [RemoteEvent("delete-account")]
-        public static void OnDeleteAccount(Client client, string accessToken)
+        public static void OnDeleteAccount(Client client, string accessToken, string approved)
         {
-            if(!WebServer.Instance.AccountManager.DeleteAccount(client, accessToken))
-                client.TriggerEvent("account-deletion_failure");
+            client.TriggerEvent("account-deletion_result", GodotServer.Instance.AccountManager.DeleteAccount(client, accessToken, approved));
         }
 
         [RemoteEvent("request-discord_verification")]
         public static void OnRequestDiscordVerification(Client client, string accessToken)
         {
-            string userID = WebServer.Instance.Sessions.ValidateSession(client, accessToken);
-            if (userID != null)
+            Session session = GodotServer.Instance.Sessions.ValidateSession(client, accessToken);
+            if (session != null)
             {
                 client.TriggerEvent("send-discord_verify_url",
-                    WebServer.Instance.AccountManager.GenerateDiscordVerifyUrl(userID));
+                    GodotServer.Instance.AccountManager.GenerateDiscordVerifyUrl(session.User.ID));
             }
         }
 
@@ -107,14 +111,28 @@ namespace LegionOfCards.Server.Account
         public static void OnCheckCreationData(Client client, string username, string email)
         {
             client.TriggerEvent("creation_data-check_result",
-                WebServer.Instance.AccountManager.CheckCreationData(username, email));
+                GodotServer.Instance.AccountManager.CheckCreationData(username, email));
         }
 
         [RemoteEvent("create-account")]
         public static void OnCreateAccount(Client client, string username, string email, string password)
         {
             client.TriggerEvent("account-creation_result",
-                WebServer.Instance.AccountManager.CreateAccount(username, email, password));
+                GodotServer.Instance.AccountManager.CreateAccount(username, email, password));
+        }
+
+        [RemoteEvent("request_user-data")]
+        public static void OnRequestUserData(Client client, string accessToken)
+        {
+            Session session = GodotServer.Instance.Sessions.ValidateSession(client, accessToken);
+            if (session != null)
+            {
+                client.TriggerEvent("send_user-data", true, session.User.Name, session.User.Email, !string.IsNullOrEmpty(session.User.DiscordID));
+            }
+            else
+            {
+                client.TriggerEvent("send_user-data", false, "", "", false);
+            }
         }
     }
 }

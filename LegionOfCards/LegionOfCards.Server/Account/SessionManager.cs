@@ -36,15 +36,15 @@ namespace LegionOfCards.Server.Account
         }
         
         /// <returns>Null if the validation was a failure</returns>
-        public string ValidateSession(Client client, string accessToken, bool requestLogin = true)
+        public Session ValidateSession(Client client, string accessToken, bool requestLogin = true)
         {
             Session session = GetSession(accessToken);
             if (session != null)
             {
-                if (Cryptor.ValidateSessionToken(WebServer.Instance.Sessions._secret, accessToken, session.User.ID) ==
+                if (Cryptor.ValidateSessionToken(GodotServer.Instance.Sessions._secret, accessToken, session.User.ID) ==
                     Cryptor.TokenResult.TokeFine)
                 {
-                    return session.User.ID;
+                    return session;
                 }
             }
 
@@ -55,7 +55,7 @@ namespace LegionOfCards.Server.Account
             return null;
         }
 
-        public void DestroySession(Client client, string token)
+        public void DestroySession(Client client, string token, bool send = true)
         {
             Session session = GetSession(token);
             if (session != null)
@@ -63,14 +63,10 @@ namespace LegionOfCards.Server.Account
                 Sessions.Remove(session);
             }
 
-            if (Database.Exists($"SELECT * FROM {Database.SessionTable} WHERE Token = @token",
-                new Tuple<string, object>("@token", token)))
-            {
-                Database.Setter($"DELETE FROM {Database.SessionTable} WHERE Token = @token",
-                    new Tuple<string, object>("@token", token));
-            }
-
-            client.TriggerEvent("session-destroyed");
+            Database.Setter($"DELETE FROM {Database.SessionTable} WHERE Token = @token",
+                new Tuple<string, object>("@token", token));
+            if(send)
+                client.TriggerEvent("session-destroyed");
         }
 
         public Session GetSession(string token)
@@ -89,7 +85,7 @@ namespace LegionOfCards.Server.Account
         [RemoteEvent("logout-session")]
         public static void OnLogoutSession(Client client, string accessToken)
         {
-            WebServer.Instance.Sessions.DestroySession(client, accessToken);
+            GodotServer.Instance.Sessions.DestroySession(client, accessToken);
         }
 
         [RemoteEvent("ping_session")]
@@ -103,10 +99,10 @@ namespace LegionOfCards.Server.Account
                 if (possibleSession != null)
                 {
                     Database.Setter($"DELETE FROM {Database.SessionTable} WHERE Token = @token", new Tuple<string, object>("@token", token));
-                    if (Cryptor.ValidateSessionToken(WebServer.Instance.Sessions._secret, token,
+                    if (Cryptor.ValidateSessionToken(GodotServer.Instance.Sessions._secret, token,
                             (string)possibleSession["UserID"]) == Cryptor.TokenResult.TokeFine)
                     {
-                        Session session = WebServer.Instance.Sessions.CreateSession((string)possibleSession["UserID"]);
+                        Session session = GodotServer.Instance.Sessions.CreateSession((string)possibleSession["UserID"]);
                         client.TriggerEvent("ping_result", true, session.User.ID, session.Token);
                         return;
                     }
@@ -127,7 +123,7 @@ namespace LegionOfCards.Server.Account
             }
             else
             {
-                Session session = WebServer.Instance.Sessions.CreateSession(userID);
+                Session session = GodotServer.Instance.Sessions.CreateSession(userID);
                 client.TriggerEvent("session-result", true, session.User.ID, session.Token);
             }
         }

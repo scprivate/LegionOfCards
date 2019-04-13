@@ -1,16 +1,145 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scripts/manager.gd" type="Script" id=1]
+[ext_resource path="res://assets/ui/background.png" type="Texture" id=2]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="login_button" type="Button" parent="."]
-margin_left = 381.4
-margin_top = 269.8
-margin_right = 617.4
-margin_bottom = 327.8
-text = "Login"
+[node name="background" type="Sprite" parent="."]
+position = Vector2( 511.538, 299.502 )
+scale = Vector2( 0.54724, 0.589369 )
+texture = ExtResource( 2 )
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="lgn_identifier_input" type="LineEdit" parent="."]
+visible = false
+margin_left = 312.735
+margin_top = 192.549
+margin_right = 697.735
+margin_bottom = 242.549
+rect_pivot_offset = Vector2( 280.358, 8.03323 )
+placeholder_text = "Email oder Benutzername"
+
+[node name="lgn_password_input" type="LineEdit" parent="."]
+visible = false
+margin_left = 312.53
+margin_top = 278.409
+margin_right = 697.53
+margin_bottom = 328.409
+secret = true
+placeholder_text = "Passwort"
+
+[node name="lgn_login_button" type="Button" parent="."]
+visible = false
+margin_left = 539.854
+margin_top = 359.277
+margin_right = 696.854
+margin_bottom = 402.277
+rect_pivot_offset = Vector2( 80.6434, 26.0791 )
+text = "Einloggen"
+
+[node name="lgn_create_account_button" type="Button" parent="."]
+visible = false
+margin_left = 312.119
+margin_top = 358.212
+margin_right = 469.119
+margin_bottom = 401.212
+text = "Account erstellen"
+
+[node name="rgr_password_input" type="LineEdit" parent="."]
+visible = false
+margin_left = 312.53
+margin_top = 282.085
+margin_right = 697.53
+margin_bottom = 332.085
+secret = true
+placeholder_text = "Passwort"
+
+[node name="rgr_password_input2" type="LineEdit" parent="."]
+visible = false
+margin_left = 311.795
+margin_top = 357.064
+margin_right = 696.795
+margin_bottom = 407.064
+secret = true
+placeholder_text = "Passwort wiederholen"
+
+[node name="rgr_email_input" type="LineEdit" parent="."]
+visible = false
+margin_left = 312.735
+margin_top = 209.456
+margin_right = 697.735
+margin_bottom = 259.456
+rect_pivot_offset = Vector2( 280.358, 8.03323 )
+placeholder_text = "Email"
+
+[node name="rgr_username_input" type="LineEdit" parent="."]
+visible = false
+margin_left = 312.0
+margin_top = 135.947
+margin_right = 697.0
+margin_bottom = 185.947
+rect_pivot_offset = Vector2( 280.358, 8.03323 )
+placeholder_text = "Benutzername"
+
+[node name="rgr_register_button" type="Button" parent="."]
+visible = false
+margin_left = 538.087
+margin_top = 426.353
+margin_right = 695.087
+margin_bottom = 469.353
+text = "Registrieren"
+
+[node name="rgr_login_button" type="Button" parent="."]
+visible = false
+margin_left = 312.414
+margin_top = 426.353
+margin_right = 469.414
+margin_bottom = 469.353
+text = "Einloggen"
+
+[node name="mnm_logout_button" type="Button" parent="."]
+visible = false
+margin_left = 435.445
+margin_top = 422.484
+margin_right = 592.445
+margin_bottom = 465.484
+text = "Ausloggen"
+
+[node name="mnm_account_button" type="Button" parent="."]
+visible = false
+margin_left = 436.219
+margin_top = 358.26
+margin_right = 593.219
+margin_bottom = 401.26
+text = "Dein Profil"
+
+[node name="acc_back_button" type="Button" parent="."]
+margin_left = 436.219
+margin_top = 432.543
+margin_right = 593.219
+margin_bottom = 475.543
+text = "Zurück"
+
+[node name="acc_verify_button" type="Button" parent="."]
+margin_left = 433.897
+margin_top = 293.263
+margin_right = 590.897
+margin_bottom = 336.263
+text = "Mit Discord verbinden"
+
+[node name="acc_delete_button" type="Button" parent="."]
+modulate = Color( 1, 0, 0, 1 )
+margin_left = 433.897
+margin_top = 349.749
+margin_right = 590.897
+margin_bottom = 392.749
+text = "Account löschen"
+
+[node name="menu_popup" type="AcceptDialog" parent="."]
+margin_left = 400.045
+margin_top = 247.61
+margin_right = 600.045
+margin_bottom = 317.61
+window_title = ""
 

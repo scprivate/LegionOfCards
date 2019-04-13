@@ -15,9 +15,14 @@ _global_script_class_icons={
 
 [application]
 
-config/name="LegionOfCards"
+config/name="Legion of Cards - by Legion of Sensei"
 run/main_scene="res://scenes/main.tscn"
 config/icon="res://icon.png"
+
+[display]
+
+mouse_cursor/custom_image="res://assets/ui/cursor.png"
+window/stretch/mode="viewport"
 
 [rendering]
 

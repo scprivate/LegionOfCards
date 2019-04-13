@@ -19,7 +19,7 @@ namespace LegionOfCards.Data.Models
 
         public string DiscordID { get; set; }
 
-        internal string HashedPassword { get; }
+        public string HashedPassword { get; }
 
         internal User(string name, string email, string password)
         {
